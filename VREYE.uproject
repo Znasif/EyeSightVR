@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.24",
+	"EngineAssociation": "4.26",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -24,13 +24,16 @@
 			"Enabled": true
 		},
 		{
+			"Name": "VictoryBPLibrary",
+			"Enabled": false
+		},
+		{
 			"Name": "SteamVR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
 				"Win32",
 				"Win64",
-				"Linux",
-				"Mac"
+				"Linux"
 			]
 		}
 	]
