@@ -3,22 +3,88 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Math/UnrealMathUtility.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "VREYE.generated.h"
 
-USTRUCT(BlueprintType)
-struct FScotoma1
-{
+
+UCLASS()
+class UAssessmentMetrics_C : public UBlueprintFunctionLibrary {
 	GENERATED_BODY()
+public:
+	UFUNCTION(BlueprintCallable)
+		static FString LogMARtoDecimal(float logMAR);
+};
+
+USTRUCT(BlueprintType)
+struct FScotoma_C
+{
+	GENERATED_USTRUCT_BODY()
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	FLinearColor MeanColor = FLinearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		FLinearColor MeanColor = FLinearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	float Sigma = 0.0f;
+		float Sigma = 0.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	float Weight = 0.0f;
+		float Weight = 0.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	float Rotation = 0.0f;
+		float Rotation = 0.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	float Distortion = 0.0f;
+		float Distortion = 0.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-	float Tesselation = 0.0f;
+		float Tesselation = 0.0f;
+};
+
+USTRUCT(BlueprintType)
+struct FPatient_Assessment_C
+{
+	GENERATED_USTRUCT_BODY()
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		bool StaticVAValid = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		bool DynamicVAValid = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		bool CSValid = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		bool ScotomaParametersValid = false;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		TMap<FString, float> StaticVA;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		float DynamicVA = 0.0f;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		float CS = 0.0f;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		TArray<FScotoma_C> ScotomaParameters;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient_Assessment")
+		FDateTime Time;
+};
+
+USTRUCT(BlueprintType)
+struct FPatient_C {
+	GENERATED_USTRUCT_BODY()
+	UPROPERTY(BlueprintReadWrite, Category = "Patient")
+		FString Name = "John Doe";
+	UPROPERTY(BlueprintReadWrite, Category = "Patient")
+		int32 ID = 0;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient")
+		int32 Age = 25;
+	UPROPERTY(BlueprintReadWrite, Category = "Patient")
+		FString Sex = "Male";
+	UPROPERTY(BlueprintReadWrite, Category = "Patient")
+		FPatient_Assessment_C Assessments;
+};
+
+
+USTRUCT(BlueprintType)
+struct FAmsler_Chart_C {
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
+		float GridThickness = 0.02;
+	UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
+		int32 Lines = 5;
+	UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
+		float scale = 4.0f;
+	UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
+		FLinearColor BackgroundColor = FLinearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
+		FLinearColor LineColor = FLinearColor(1.0f, 1.0f, 1.0f, 0.0f);
 };
