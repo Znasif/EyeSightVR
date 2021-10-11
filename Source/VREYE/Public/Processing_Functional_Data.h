@@ -6,9 +6,11 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Processing_Functional_Data.generated.h"
 
-/**
- * 
- */
+/*
+*
+* 
+*/
+
 UCLASS()
 class VREYE_API UProcessing_Functional_Data : public UBlueprintFunctionLibrary
 {
