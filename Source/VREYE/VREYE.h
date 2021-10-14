@@ -14,6 +14,22 @@ class UAssessmentMetrics_C : public UBlueprintFunctionLibrary {
 public:
 	UFUNCTION(BlueprintCallable)
 		static FString LogMARtoDecimal(float logMAR);
+	UFUNCTION(BlueprintCallable)
+		static FString LogMARtoSnellenM(float logMAR);
+	UFUNCTION(BlueprintCallable)
+		static FString LogMARtoSnellenft(float logMAR);
+	UFUNCTION(BlueprintCallable)
+		static FString LogCStoWeber(float logCS);
+	UFUNCTION(BlueprintCallable)
+		static FString LogCStoMichelson(float logCS);
+	UFUNCTION(BlueprintCallable)
+		static FString LogMAR(float logMAR);
+	UFUNCTION(BlueprintCallable)
+		static FString LogCS(float logCS);
+	UFUNCTION(BlueprintCallable)
+		static float MichelsontoLogCS(float michelson);
+	UFUNCTION(BlueprintCallable)
+		static float MARtoLogMAR(float MAR);
 };
 
 USTRUCT(BlueprintType)
