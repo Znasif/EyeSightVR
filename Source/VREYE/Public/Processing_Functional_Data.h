@@ -24,3 +24,29 @@ class VREYE_API UProcessing_Functional_Data : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Save"))
 	static bool DeleteTextFile(FString SaveDirectory, FString FileName);
 };
+
+USTRUCT(BlueprintType)
+struct FColor_info
+{
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<FLinearColor> background_color;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<FLinearColor> normal_color;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<FLinearColor> cvd_color;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<FLinearColor> invisible_color;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> normal_f;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> normal_s;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> cvd_f;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> cvd_s;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> invisible_f;
+	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
+		TArray<int32> invisible_s;
+};

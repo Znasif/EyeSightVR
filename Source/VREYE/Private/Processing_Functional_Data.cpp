@@ -57,3 +57,4 @@ bool UProcessing_Functional_Data::DeleteTextFile(FString SaveDirectory, FString 
 
 	return FPlatformFileManager::Get().GetPlatformFile().DeleteFile(*SaveDirectory);
 }
+
