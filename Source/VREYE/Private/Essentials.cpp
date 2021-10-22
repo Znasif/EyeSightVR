@@ -9,7 +9,6 @@ AEssentials::AEssentials()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void AEssentials::Cleareverything(FColor_info &fi)
@@ -22,7 +21,6 @@ void AEssentials::Cleareverything(FColor_info &fi)
 	fi.normal_f.Empty();
 	fi.cvd_f.Empty();
 	fi.invisible.Empty();
-
 	fi.normal_s.Empty();
 	fi.cvd_s.Empty();
 	fi.validResponses.Empty();
@@ -328,7 +326,6 @@ void AEssentials::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 c
 {
 	int32 selected_color;
 
-
 	//background coloring
 	for (int32 i = 0; i < ovalPlates.Num(); i++) {
 		selected_color = FMath::RandRange(0, all_plates[coloredPlate].background_color.Num()-1);
@@ -341,7 +338,6 @@ void AEssentials::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 c
 	}
 
 	//normal coloring
-
 	for (int32 i = 0; i < all_plates[coloredPlate].normal_f.Num(); i++) {
 		selected_color = FMath::RandRange(0, all_plates[coloredPlate].normal_color.Num() - 1);
 		int32 j = all_plates[coloredPlate].normal_f[i];
@@ -391,7 +387,6 @@ void AEssentials::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 c
 		}
 	}
 
-
 	//invisible coloring
 	for (int32 i = 0; i < all_plates[coloredPlate].invisible.Num(); i++) {
 		selected_color = FMath::RandRange(0, all_plates[coloredPlate].invisible_color.Num() - 1);
@@ -410,7 +405,6 @@ void AEssentials::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 c
 void AEssentials::AssessResponses(TMap<int32, FString> responses, FString& out)
 {
 	TArray<int32> count = {0, 0, 0, 0, 0};
-	
 	for (int32 i = 0; i < all_plates.Num(); i++)
 	{
 		for (int32 j = 0; j < 5; j++)
@@ -425,9 +419,12 @@ void AEssentials::AssessResponses(TMap<int32, FString> responses, FString& out)
 			max = count[j];
 			max_idx = j;
 		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d\n"), count[j]));
 	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("MAX_IDX: %d"), max_idx));
 	TArray<FString> which = { "normal","strong_protan", "mild_protan", "strong_deutan", "mild_deutan" };
-	if (max_idx < 0) out = which[max_idx];
+	if (max_idx >= 0) out = which[max_idx];
 	else out = "uncertain";
 	return;
 }
@@ -438,7 +435,6 @@ void AEssentials::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
 }
 
 
