@@ -46,7 +46,7 @@ struct FColor_info
 	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
 		TArray<int32> cvd_s;
 	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
-		TArray<int32> invisible_f;
+		TArray<int32> invisible;
 	UPROPERTY(BlueprintReadWrite, Category = "Color_Plate_Info")
-		TArray<int32> invisible_s;
+		TArray<FString> validResponses;
 };
