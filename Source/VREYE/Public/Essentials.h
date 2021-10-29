@@ -28,7 +28,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(BlueprintReadWrite, Category = "Color_Plates_Info")
-		TArray<FColor_info> all_plates;
+	TArray<FColor_info> all_plates;
 
 	UFUNCTION(BlueprintCallable, Category = "Function")
 	static void Cleareverything(FColor_info &fi);

@@ -32,6 +32,23 @@ public:
 		static float MARtoLogMAR(float MAR);
 };
 
+UENUM()
+enum class Eye :uint8
+{
+	Left     UMETA(DisplayName = "Left"),
+	Right      UMETA(DisplayName = "Right"),
+	Both   UMETA(DisplayName = "Both"),
+};
+
+UENUM()
+enum class Move_Along :uint8
+{
+	Up   UMETA(DisplayName = "Up"),
+	Left     UMETA(DisplayName = "Left"),
+	Right      UMETA(DisplayName = "Right"),
+	Down   UMETA(DisplayName = "Down"),
+};
+
 USTRUCT(BlueprintType)
 struct FScotoma_C
 {
