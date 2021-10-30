@@ -17,19 +17,13 @@ public:
 	AMetamorphopsiaController();
 	
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
-	TArray<FScotoma_C> past_meta_l;
+	TMap<Eye, FScotoma_C> past_meta;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TArray<FScotoma_C> meta_l;
+	TMap<Eye, FScotoma_C> meta;
 
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
-	TArray<FScotoma_C> past_meta_r;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TArray<FScotoma_C> meta_r;
-
-	UPROPERTY(EditAnywhere, Category = "Subject Information")
-	TArray <float> delta_vector;
+	TMap <Move_Along, float> delta_vector;
 
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
 	TArray <float> delta;
@@ -43,6 +37,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
 	int32 Subject_ID;
 
+	UPROPERTY(EditAnywhere, Category = "Subject Information")
+		TArray<FAmsler_Chart_C> past_charts;
+
+	UPROPERTY(EditAnywhere, Category = "Subject Information")
+		TArray<FAmsler_Chart_C> current_charts;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -52,14 +52,29 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	FLinearColor ConvertLocationToUV(Eye eye, FVector location);
-
-	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void UpdatePosition(Eye eye, int32 layer, FVector location, Move_Along direction);
-
-	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void UpdateMetamorphopsia(Eye eye, int32 layer, int32 property);
-
-	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void Initiate();
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void InactiveLayers(Eye eye, TArray<int8>& idx);
+	
+	/*UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void CreateScotomaLayer(Eye eye, int8& layer);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void CreateMaterialfromScotoma_C(Eye eye, TArray<int32> met_layers, UMaterialInstanceDynamic& distortion_mat);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void ConvertLocationToUV(Eye eye, FVector location, FLinearColor& UV);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void UpdatePosition(Eye eye, TArray<int32> met_layers, Move_Along direction);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void UpdatePositionfromVector(Eye eye, TArray<int32> met_layers, FVector location);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void UpdateMetamorphopsia(Eye eye, int32 met_layers, int32 property);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void TrackGazeFixation(FVector GazeDirection, bool& reliable);*/
 };

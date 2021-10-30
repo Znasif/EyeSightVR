@@ -3,6 +3,8 @@
 
 #include "MetamorphopsiaController.h"
 
+#define MAX_LAYERS 3
+
 // Sets default values
 AMetamorphopsiaController::AMetamorphopsiaController()
 {
@@ -11,36 +13,75 @@ AMetamorphopsiaController::AMetamorphopsiaController()
 }
 
 void AMetamorphopsiaController::Initiate() {
-	for (int32 i = 0; i < past_meta_l.Num(); i++) {
-		meta_l.Add(past_meta_l[i]);
-	}
-	for (int32 i = 0; i < past_meta_r.Num(); i++) {
-		meta_r.Add(past_meta_l[i]);
-	}
+	//get scotoma values from past_meta into meta
+	meta[Eye::Left].layers_active = past_meta[Eye::Left].layers_active;
+	meta[Eye::Right].layers_active = past_meta[Eye::Right].layers_active;
+
+	meta[Eye::Left].layers = past_meta[Eye::Left].layers;
+	meta[Eye::Right].layers = past_meta[Eye::Right].layers;
+	
+	//create material instance from current meta
+
+	//adjust chart based on past chart info
+
+	//set the material to the chart
 }
 
-FLinearColor AMetamorphopsiaController::ConvertLocationToUV(Eye eye, FVector location) {
-	return FLinearColor::Red;
-}
-
-void AMetamorphopsiaController::UpdatePosition(Eye eye, int32 layer, FVector location, Move_Along direction) {
-	FLinearColor updated;
-	if (eye == Eye::Left) {
-		updated = ConvertLocationToUV(eye, location);
-		switch (direction)
-		{
-		case Move_Along::Left:
-			meta_l[layer].MeanColor.R = meta_l[layer].MeanColor.R+delta[0];
-			break;
-		default:
-			break;
-		}
+void AMetamorphopsiaController::InactiveLayers(Eye eye, TArray<int8>& idx) {
+	idx = {};
+	for (int8 i = 0; i < meta[eye].layers_active.Num(); i++)
+	{
+		if (!meta[eye].layers_active[i]) idx.Add(i);
 	}
 }
+/*
+void AMetamorphopsiaController::CreateScotomaLayer(Eye eye, int8& layer) {
+	FScotomata_C new_sc;
 
-void AMetamorphopsiaController::UpdateMetamorphopsia(Eye eye, int32 layer, int32 property) {
+	TArray<int8> idx;
+	InactiveLayers(eye, idx);
+	if (idx.Num() == 0) {
+		// all layers are active
+		layer = MAX_LAYERS - 1;
+	}
+	else if (idx.Num() == MAX_LAYERS) {
+		// all layers inactive
+		meta[eye].layers.Empty();
+		meta[eye].layers.Add(new_sc);
+		layer = 0;
+	}
+	else {
+		//at least one layer active
+		layer = idx[0];
+		new_sc.MeanColor = meta[eye].layers[layer - 1].MeanColor;
+		new_sc.Sigma = meta[eye].layers[layer - 1].Sigma;
+		meta[eye].layers[layer] = new_sc;
+	}
+	meta[eye].layers_active[layer] = true;
+}
+void AMetamorphopsiaController::CreateMaterialfromScotoma_C(Eye eye, TArray<int32> met_layers, UMaterialInstanceDynamic& distortion_mat) {
 
 }
+
+void AMetamorphopsiaController::ConvertLocationToUV(Eye eye, FVector location, FLinearColor& UV) {
+
+}
+
+void AMetamorphopsiaController::UpdatePosition(Eye eye, TArray<int32> met_layers, Move_Along direction) {
+
+}
+
+void AMetamorphopsiaController::UpdatePositionfromVector(Eye eye, TArray<int32> met_layers, FVector location) {
+
+}
+
+void AMetamorphopsiaController::UpdateMetamorphopsia(Eye eye, int32 met_layers, int32 property) {
+
+}
+
+void AMetamorphopsiaController::TrackGazeFixation(FVector GazeDirection, bool& reliable) {
+
+}*/
 
 // Called when the game starts or when spawned
 void AMetamorphopsiaController::BeginPlay()

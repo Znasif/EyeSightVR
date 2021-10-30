@@ -50,21 +50,31 @@ enum class Move_Along :uint8
 };
 
 USTRUCT(BlueprintType)
-struct FScotoma_C
+struct FScotomata_C
 {
 	GENERATED_USTRUCT_BODY()
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-		FLinearColor MeanColor = FLinearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
-		float Sigma = 0.0f;
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
+		FLinearColor MeanColor = FLinearColor(0.5f, 0.5f, 0.0f, 0.0f);
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
+		float Sigma = 0.015f;
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Weight = 0.0f;
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Rotation = 0.0f;
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Distortion = 0.0f;
-	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Tesselation = 0.0f;
+};
+
+USTRUCT(BlueprintType)
+struct FScotoma_C {
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+		TArray<FScotomata_C> layers;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Scotoma")
+		TArray<bool> layers_active = {false, false, false};
 };
 
 USTRUCT(BlueprintType)
