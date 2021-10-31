@@ -12,13 +12,10 @@ AMetamorphopsiaController::AMetamorphopsiaController()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AMetamorphopsiaController::Initiate() {
+void AMetamorphopsiaController::Initiate(TArray<UMaterialInstanceDynamic*> distortion_mats, UStaticMeshComponent* plane) {
 	//get scotoma values from past_meta into meta
-	meta[Eye::Left].layers_active = past_meta[Eye::Left].layers_active;
-	meta[Eye::Right].layers_active = past_meta[Eye::Right].layers_active;
-
-	meta[Eye::Left].layers = past_meta[Eye::Left].layers;
-	meta[Eye::Right].layers = past_meta[Eye::Right].layers;
+	simulated_distortions = distortion_mats;
+	distortion_plane = plane;
 	
 	//create material instance from current meta
 
@@ -27,61 +24,67 @@ void AMetamorphopsiaController::Initiate() {
 	//set the material to the chart
 }
 
-void AMetamorphopsiaController::InactiveLayers(Eye eye, TArray<int8>& idx) {
-	idx = {};
-	for (int8 i = 0; i < meta[eye].layers_active.Num(); i++)
-	{
-		if (!meta[eye].layers_active[i]) idx.Add(i);
-	}
+void AMetamorphopsiaController::Simulate(int which_distortion) {
+	distortion_plane->SetMaterial(0, simulated_distortions[which_distortion]);
 }
-/*
-void AMetamorphopsiaController::CreateScotomaLayer(Eye eye, int8& layer) {
-	FScotomata_C new_sc;
 
-	TArray<int8> idx;
-	InactiveLayers(eye, idx);
-	if (idx.Num() == 0) {
-		// all layers are active
-		layer = MAX_LAYERS - 1;
+void AMetamorphopsiaController::fromMaterialtoScotoma_C(UMaterialInstanceDynamic* mat, FScotoma_C& scotomas) {
+	float j;
+	FScotoma_C sc;
+	for (int8 layer = 0; layer < MAX_LAYERS; layer++) {
+		mat->GetScalarParameterValue(FName("Sigma" + FString::FromInt(layer)), j);
+		FScotomata_C s;
+		if (j > 0) {
+			sc.layers_active[layer] = true;
+			s.Sigma = j;
+			FLinearColor mean;
+			mat->GetVectorParameterValue(FName("Mean" + FString::FromInt(layer)), mean);
+			s.MeanColor = mean;
+			mat->GetScalarParameterValue(FName("Rotation" + FString::FromInt(layer)), j);
+			s.Rotation = j;
+			mat->GetScalarParameterValue(FName("Distortion" + FString::FromInt(layer)), j);
+			s.Distortion = j;
+			mat->GetScalarParameterValue(FName("Weight" + FString::FromInt(layer)), j);
+			s.Weight = j;
+		}
+		sc.layers.Add(s);
+		
 	}
-	else if (idx.Num() == MAX_LAYERS) {
-		// all layers inactive
-		meta[eye].layers.Empty();
-		meta[eye].layers.Add(new_sc);
-		layer = 0;
+	scotomas = sc;
+}
+
+void AMetamorphopsiaController::printScotomata(FScotomata_C s, FString& print_s) {
+	FString ret = "Mean : ";
+	ret += FString::SanitizeFloat(s.MeanColor.R) + " " + FString::SanitizeFloat(s.MeanColor.G);
+	ret += "\nSigma: ";
+	ret += FString::SanitizeFloat(s.Sigma);
+	ret += "\nRotation: ";
+	ret += FString::SanitizeFloat(s.Rotation);
+	ret += "\nDistortion: ";
+	ret += FString::SanitizeFloat(s.Distortion);
+	ret += "\nWeight: ";
+	ret += FString::SanitizeFloat(s.Weight);
+	print_s = ret;
+}
+
+void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UMaterial* Left_mat, UMaterial* Right_mat, UMaterialInstanceDynamic*& mat) {
+	if (eye == Eye::Left) {
+		mat = UMaterialInstanceDynamic::Create(Left_mat, this);
 	}
 	else {
-		//at least one layer active
-		layer = idx[0];
-		new_sc.MeanColor = meta[eye].layers[layer - 1].MeanColor;
-		new_sc.Sigma = meta[eye].layers[layer - 1].Sigma;
-		meta[eye].layers[layer] = new_sc;
+		mat = UMaterialInstanceDynamic::Create(Right_mat, this);
 	}
-	meta[eye].layers_active[layer] = true;
+
+	for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
+		if (scotomas.layers_active[i]) {
+			mat->SetVectorParameterValue(FName("Mean" + FString::FromInt(i)), scotomas.layers[i].MeanColor);
+			mat->SetScalarParameterValue(FName("Sigma" + FString::FromInt(i)), scotomas.layers[i].Sigma);
+			mat->SetScalarParameterValue(FName("Rotation" + FString::FromInt(i)), scotomas.layers[i].Rotation);
+			mat->SetScalarParameterValue(FName("Distortion" + FString::FromInt(i)), scotomas.layers[i].Distortion);
+			mat->SetScalarParameterValue(FName("Weight" + FString::FromInt(i)), scotomas.layers[i].Weight);
+		}
+	}
 }
-void AMetamorphopsiaController::CreateMaterialfromScotoma_C(Eye eye, TArray<int32> met_layers, UMaterialInstanceDynamic& distortion_mat) {
-
-}
-
-void AMetamorphopsiaController::ConvertLocationToUV(Eye eye, FVector location, FLinearColor& UV) {
-
-}
-
-void AMetamorphopsiaController::UpdatePosition(Eye eye, TArray<int32> met_layers, Move_Along direction) {
-
-}
-
-void AMetamorphopsiaController::UpdatePositionfromVector(Eye eye, TArray<int32> met_layers, FVector location) {
-
-}
-
-void AMetamorphopsiaController::UpdateMetamorphopsia(Eye eye, int32 met_layers, int32 property) {
-
-}
-
-void AMetamorphopsiaController::TrackGazeFixation(FVector GazeDirection, bool& reliable) {
-
-}*/
 
 // Called when the game starts or when spawned
 void AMetamorphopsiaController::BeginPlay()
