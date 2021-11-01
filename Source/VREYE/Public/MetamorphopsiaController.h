@@ -16,18 +16,12 @@ class VREYE_API AMetamorphopsiaController : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMetamorphopsiaController();
-	
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TMap<Eye, FScotoma_C> past_meta;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TMap<Eye, FScotoma_C> meta;
+	UPROPERTY(EditAnywhere, Category = "Subject Information")
+		TArray <float> min_limit = {0.0f, 0.0f, -180.0f, -1.0f, 0.0f};
 
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TMap <Move_Along, float> delta_vector;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TArray <float> delta;
+	UPROPERTY(EditAnywhere, Category = "Subject Information")
+	TArray <float> max_limit = { 1.0f, 1.0f, 180.0f, 1.0f, 1.0f };
 
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_close;
@@ -38,17 +32,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <UMaterialInstanceDynamic*> simulated_distortions;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	UStaticMeshComponent* distortion_plane;
-
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
 	int32 Subject_ID;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TArray<FAmsler_Chart_C> past_charts;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
-	TArray<FAmsler_Chart_C> current_charts;
 
 	UMaterial* StoredMaterial;
 
@@ -61,17 +46,26 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void Initiate(TArray<UMaterialInstanceDynamic*> distortion_mats, UStaticMeshComponent* plane);
+	void Initiate(TArray<UMaterialInstanceDynamic*> distortion_mats);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void Simulate(int which_distortion);
+	void Simulate(int which_distortion, UStaticMeshComponent* distortion_plane);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void fromMaterialtoScotoma_C(UMaterialInstanceDynamic* mat, FScotoma_C& scotomas);
+	void fromMaterialtoScotoma_C(Eye eye, UMaterialInstanceDynamic* mat, FScotoma_C& scotomas);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void printScotomata(FScotomata_C s, FString& print_s);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UMaterial* Left_mat, UMaterial* Right_mat, UMaterialInstanceDynamic*& mat);
+	void fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void manipulationLayer(Eye eye, FScotoma_C replica, int32& which_layer, FScotoma_C& out);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void move_location(FScotoma_C sc, TArray<int32> which_layers, Move_Along direction, float val, FScotoma_C& out);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void alter_scotoma_property(FScotoma_C sc, int32 which_layer, int32 which_property, float val, FScotoma_C& out);
 };

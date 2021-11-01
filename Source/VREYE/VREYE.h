@@ -32,7 +32,7 @@ public:
 		static float MARtoLogMAR(float MAR);
 };
 
-UENUM()
+UENUM(BlueprintType)
 enum class Eye :uint8
 {
 	Left     UMETA(DisplayName = "Left"),
@@ -40,7 +40,7 @@ enum class Eye :uint8
 	Both   UMETA(DisplayName = "Both"),
 };
 
-UENUM()
+UENUM(BlueprintType)
 enum class Move_Along :uint8
 {
 	Up   UMETA(DisplayName = "Up"),
