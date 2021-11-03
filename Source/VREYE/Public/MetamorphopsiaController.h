@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Processing_Functional_Data.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "../VREYE.h"
 #include "MetamorphopsiaController.generated.h"
@@ -61,11 +62,14 @@ public:
 	void fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void manipulationLayer(Eye eye, FScotoma_C replica, int32& which_layer, FScotoma_C& out);
+	void manipulationLayer(FScotoma_C replica, int32& which_layer, FScotoma_C& out);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void move_location(FScotoma_C sc, TArray<int32> which_layers, Move_Along direction, float val, FScotoma_C& out);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void alter_scotoma_property(FScotoma_C sc, int32 which_layer, int32 which_property, float val, FScotoma_C& out);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
+	void save_patientData(TArray<FScotomata_C> arr_sc, bool simulation);
 };

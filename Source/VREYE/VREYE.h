@@ -64,6 +64,8 @@ struct FScotomata_C
 	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Distortion = 0.0f;
 	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
+		FLinearColor Boundary = FLinearColor::Black;
+	UPROPERTY(BlueprintReadWrite, Category = "Scotomata")
 		float Tesselation = 0.0f;
 };
 

@@ -15,6 +15,7 @@ UCLASS()
 class VREYE_API UProcessing_Functional_Data : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+public:
 	UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "Load"))
 	static bool LoadTextFromFile(FString FileName, TArray<FString>& TextArray, FString& TextString);
 
