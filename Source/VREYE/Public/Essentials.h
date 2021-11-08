@@ -34,11 +34,10 @@ public:
 	static void Cleareverything(FColor_info &fi);
 
 	UFUNCTION(BlueprintCallable, Category = "Function")
-	void InitializePlates();
-
+	virtual void InitializePlates();
 
 	UFUNCTION(BlueprintCallable, Category = "Function")
-	void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate);
+	virtual void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate);
 
 	UFUNCTION(BlueprintCallable, Category = "Function")
 	void AssessResponses(TMap<int32, FString> responses, FString& out);
