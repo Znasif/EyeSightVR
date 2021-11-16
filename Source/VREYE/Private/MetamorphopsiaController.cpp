@@ -24,6 +24,8 @@ void AMetamorphopsiaController::Initiate(TArray<UMaterialInstanceDynamic*> disto
 }
 
 void AMetamorphopsiaController::Simulate(int which_distortion, UStaticMeshComponent* distortion_plane) {
+	simulated_distortions[which_distortion]->SetScalarParameterValue(FName("monocular_l"), 1.0f);
+	simulated_distortions[which_distortion]->SetScalarParameterValue(FName("monocular_r"), 0.0f);
 	distortion_plane->SetMaterial(0, simulated_distortions[which_distortion]);
 }
 
@@ -70,10 +72,16 @@ void AMetamorphopsiaController::printScotomata(FScotomata_C s, FString& print_s)
 	print_s = ret;
 }
 
-void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat) {
+void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool monocular, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat) {
 	mat = UMaterialInstanceDynamic::Create(bin_mat, this);
 	TMap<Eye, FString> prefix_mat = { {Eye::Left, "Left_"}, {Eye::Right, "Right_"} };
+	TMap<Eye, FString> monocular_prefix = { {Eye::Left, "monocular_r"}, {Eye::Right, "monocular_l"} };
 
+	mat->SetScalarParameterValue(FName("monocular_l"), 1.0f);
+	mat->SetScalarParameterValue(FName("monocular_r"), 1.0f);
+	if (monocular) {
+		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
+	}
 	for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
 		if (scotomas.layers_active[i]) {
 			mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Mean" + FString::FromInt(i)), scotomas.layers[i].MeanColor);

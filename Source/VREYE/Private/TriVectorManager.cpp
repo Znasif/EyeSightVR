@@ -63,6 +63,6 @@ void ATriVectorManager::InitializeColors() {
 	threshold_along_confusion_lines = {0, 0, 0};
 }
 
-void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate) {
-
-}
+//void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate) {
+//
+//}

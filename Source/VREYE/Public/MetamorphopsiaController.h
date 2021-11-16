@@ -59,7 +59,7 @@ public:
 	void printScotomata(FScotomata_C s, FString& print_s);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void fromScotoma_CtoMaterial(Eye eye, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
+	void fromScotoma_CtoMaterial(Eye eye, bool monocular, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void manipulationLayer(FScotoma_C replica, int32& which_layer, FScotoma_C& out);
