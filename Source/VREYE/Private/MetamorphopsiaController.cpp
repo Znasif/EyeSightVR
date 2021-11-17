@@ -72,28 +72,51 @@ void AMetamorphopsiaController::printScotomata(FScotomata_C s, FString& print_s)
 	print_s = ret;
 }
 
-void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool monocular, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat) {
+void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool post, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat) {
 	mat = UMaterialInstanceDynamic::Create(bin_mat, this);
 	TMap<Eye, FString> prefix_mat = { {Eye::Left, "Left_"}, {Eye::Right, "Right_"} };
 	TMap<Eye, FString> monocular_prefix = { {Eye::Left, "monocular_r"}, {Eye::Right, "monocular_l"} };
 
 	mat->SetScalarParameterValue(FName("monocular_l"), 1.0f);
 	mat->SetScalarParameterValue(FName("monocular_r"), 1.0f);
-	if (monocular) {
+	if (post) {
 		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
-	}
-	for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
-		if (scotomas.layers_active[i]) {
-			mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Mean" + FString::FromInt(i)), scotomas.layers[i].MeanColor);
-			mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Sigma" + FString::FromInt(i)), scotomas.layers[i].Sigma);
-			mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Rotation" + FString::FromInt(i)), scotomas.layers[i].Rotation);
-			mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Distortion" + FString::FromInt(i)), scotomas.layers[i].Distortion);
-			mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Weight" + FString::FromInt(i)), scotomas.layers[i].Weight);
-			mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Boundary" + FString::FromInt(i)), scotomas.layers[i].Boundary);
+		for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
+			if (scotomas.layers_active[i]) {
+				mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Mean" + FString::FromInt(i)), scotomas.layers[i].MeanColor);
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Sigma" + FString::FromInt(i)), scotomas.layers[i].Sigma);
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Rotation" + FString::FromInt(i)), scotomas.layers[i].Rotation);
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Distortion" + FString::FromInt(i)), scotomas.layers[i].Distortion);
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Weight" + FString::FromInt(i)), scotomas.layers[i].Weight);
+				mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Boundary" + FString::FromInt(i)), scotomas.layers[i].Boundary);
+			}
 		}
+		if (distortion_plane) distortion_plane->SetMaterial(0, mat);
 	}
-
-	if(distortion_plane) distortion_plane->SetMaterial(0, mat);
+	else {
+		FLinearColor temp_mean;
+		float temp_float;
+		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
+		for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
+			if (scotomas.layers_active[i]) {
+				temp_mean = scotomas.layers[i].MeanColor;
+				mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Mean" + FString::FromInt(i)), temp_mean);
+				temp_float = scotomas.layers[i].Sigma;
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Sigma" + FString::FromInt(i)), temp_float);
+				temp_float = scotomas.layers[i].Rotation;
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Rotation" + FString::FromInt(i)), temp_float);
+				temp_float = scotomas.layers[i].Distortion;
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Distortion" + FString::FromInt(i)), temp_float);
+				mat->SetScalarParameterValue(FName(prefix_mat[eye] + "Weight" + FString::FromInt(i)), scotomas.layers[i].Weight);
+				mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Boundary" + FString::FromInt(i)), scotomas.layers[i].Boundary);
+			}
+		}
+		TArray<FWeightedBlendable> postArray;
+		postArray.Add(FWeightedBlendable(1.0, mat));
+		FPostProcessSettings postSetting;
+		postSetting.WeightedBlendables = postArray;
+		camera->PostProcessSettings = postSetting;
+	}
 }
 
 void AMetamorphopsiaController::manipulationLayer(FScotoma_C replica, int32& which_layer, FScotoma_C& out) {

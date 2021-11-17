@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Camera/CameraComponent.h"
 #include "Processing_Functional_Data.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "../VREYE.h"
@@ -24,8 +25,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
 	TArray <float> max_limit = { 1.0f, 1.0f, 180.0f, 1.0f, 1.0f };
 
+	UPROPERTY(EditAnywhere, Category = "Subject Information")
+		TMap <FString, float> mapping = { {"Mean_x", 0.0f}, {"Mean_y", 0.0f}, {"Sigma", 0.0f}, {"Rotation", 0.0f}, {"Distortion", 0.0f} };
+
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_close;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Camera Information")
+	UCameraComponent* camera;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_far;
@@ -59,7 +66,7 @@ public:
 	void printScotomata(FScotomata_C s, FString& print_s);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
-	void fromScotoma_CtoMaterial(Eye eye, bool monocular, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
+	void fromScotoma_CtoMaterial(Eye eye, bool post, FScotoma_C scotomas, UStaticMeshComponent* distortion_plane, UMaterial* bin_mat, UMaterialInstanceDynamic*& mat);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void manipulationLayer(FScotoma_C replica, int32& which_layer, FScotoma_C& out);
