@@ -79,7 +79,7 @@ void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool post, FSco
 
 	mat->SetScalarParameterValue(FName("monocular_l"), 1.0f);
 	mat->SetScalarParameterValue(FName("monocular_r"), 1.0f);
-	if (post) {
+	if (!post) {
 		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
 		for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
 			if (scotomas.layers_active[i]) {
@@ -113,9 +113,17 @@ void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool post, FSco
 		}
 		TArray<FWeightedBlendable> postArray;
 		postArray.Add(FWeightedBlendable(1.0, mat));
-		FPostProcessSettings postSetting;
-		postSetting.WeightedBlendables = postArray;
-		camera->PostProcessSettings = postSetting;
+		Corrected_setting.WeightedBlendables = postArray;
+		camera->PostProcessSettings = Corrected_setting;
+	}
+}
+
+void AMetamorphopsiaController::alter_camera_setting(bool is_normal_setting) {
+	if (is_normal_setting) {
+		camera->PostProcessSettings = Normal_setting;
+	}
+	else {
+		camera->PostProcessSettings = Corrected_setting;
 	}
 }
 
@@ -197,7 +205,7 @@ void AMetamorphopsiaController::alter_scotoma_property(FScotoma_C sc, int32 whic
 			break;
 		case 4:
 			sc.layers[which_layer].Boundary = FLinearColor::Black;
-			temp = sc.layers[which_layer].Weight + val * 0.15f;
+			temp = sc.layers[which_layer].Weight + val * 0.015f;
 			if (min_limit[4] < temp && max_limit[4] > temp) sc.layers[which_layer].Weight = temp;
 			break;
 		default:

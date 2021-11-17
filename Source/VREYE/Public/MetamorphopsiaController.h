@@ -26,13 +26,18 @@ public:
 	TArray <float> max_limit = { 1.0f, 1.0f, 180.0f, 1.0f, 1.0f };
 
 	UPROPERTY(EditAnywhere, Category = "Subject Information")
-		TMap <FString, float> mapping = { {"Mean_x", 0.0f}, {"Mean_y", 0.0f}, {"Sigma", 0.0f}, {"Rotation", 0.0f}, {"Distortion", 0.0f} };
+	TMap <FString, float> mapping = { {"Mean_x", 0.0f}, {"Mean_y", 0.0f}, {"Sigma", 0.0f}, {"Rotation", 0.0f}, {"Distortion", 0.0f} };
 
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_close;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Camera Information")
 	UCameraComponent* camera;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Camera Information")
+	FPostProcessSettings Normal_setting;
+
+	FPostProcessSettings Corrected_setting;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_far;
@@ -58,6 +63,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void Simulate(int which_distortion, UStaticMeshComponent* distortion_plane);
+
+	UFUNCTION(BlueprintCallable, Category = "Update Camera")
+	void alter_camera_setting(bool is_normal_setting);
 
 	UFUNCTION(BlueprintCallable, Category = "Update Metamorphopsia")
 	void fromMaterialtoScotoma_C(Eye eye, UMaterialInstanceDynamic* mat, FScotoma_C& scotomas);
