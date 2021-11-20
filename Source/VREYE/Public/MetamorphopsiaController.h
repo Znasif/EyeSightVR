@@ -31,6 +31,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <float> mean_close;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
+	bool mono = true;
+
 	UPROPERTY(BlueprintReadWrite, Category = "Camera Information")
 	UCameraComponent* camera;
 
