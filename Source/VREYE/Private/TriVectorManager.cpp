@@ -61,8 +61,60 @@ void ATriVectorManager::InitializeColors() {
 	deutan_hex = { "#040301", "#030401", "#020401", "#010401", "#000502", "#000502", "#000502", "#000602", "#000602", "#000602", "#000702", "#000702", "#000703", "#000803", "#000803", "#000803", "#000903", "#000903", "#000903", "#000a03", "#000a04", "#000a04", "#000b04", "#000b04", "#000b04", "#000c04", "#000c04", "#000c05", "#000d05", "#000d05", "#000d05", "#000e05", "#000e05", "#000e05", "#000e05", "#000f06", "#000f06", "#000f06", "#000f06", "#001006", "#001006", "#001006", "#001006", "#001107", "#001107", "#001107", "#001107", "#001207", "#001207", "#001207", "#001207", "#001208", "#001308", "#001308", "#001308", "#001308", "#001408", "#001408", "#001409", "#001409", "#001409", "#001509", "#001509", "#001509", "#001509", "#001509", "#00160a", "#00160a", "#00160a", "#00160a", "#00160a", "#00170a", "#00170a", "#00170a", "#00170b", "#00170b", "#00170b", "#00180b", "#00180b", "#00180b", "#00180b", "#00180b", "#00180b", "#00190c", "#00190c", "#00190c", "#00190c", "#00190c", "#00190c", "#001a0c", "#001a0c", "#001a0c", "#001a0d", "#001a0d", "#001a0d", "#001b0d", "#001b0d", "#001b0d", "#001b0d", "#001b0d" };
 	tritan_hex = { "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#040301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050301", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300", "#050300"};
 	threshold_along_confusion_lines = {0, 0, 0};
+
+	//placeholders
 }
 
-//void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate) {
-//
-//}
+void ATriVectorManager::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate)
+{
+	//background coloring
+	for (int32 i = 0; i < ovalPlates.Num(); i++) {
+		UMaterialInstanceDynamic* plate_material = ovalPlates[i]->GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamic(0);
+		FLinearColor current_color = FLinearColor(FColor(67, 44, 44, 1));
+		if (plate_material)
+		{
+			plate_material->SetVectorParameterValue(TEXT("plate"), current_color);
+		}
+	}
+
+	//foreground coloring
+	for (int32 i = 0; i < all_plates[coloredPlate].normal_f.Num(); i++) {
+		int32 j = all_plates[coloredPlate].normal_f[i];
+		j = j > 211 ? j : j - 1;
+		UMaterialInstanceDynamic* plate_material = ovalPlates[j]->GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamic(0);
+		FLinearColor current_color = FLinearColor(FColor(123, 65, 38, 1));
+		if (plate_material)
+		{
+			plate_material->SetVectorParameterValue(TEXT("plate"), current_color);
+		}
+	}
+
+	return;
+}
+
+void ATriVectorManager::AssessResponses(TMap<int32, FString> responses, FString& out)
+{
+	TArray<int32> count = { 0, 0, 0, 0, 0 };
+	for (int32 i = 0; i < all_plates.Num(); i++)
+	{
+		for (int32 j = 0; j < 5; j++)
+		{
+			if (responses.Find(i)->Equals(all_plates[i].validResponses[j])) count[j]++;
+		}
+	}
+	int32 max = -1, max_idx = -1;
+	for (int32 j = 0; j < 5; j++)
+	{
+		if (max < count[j]) {
+			max = count[j];
+			max_idx = j;
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("%d\n"), count[j]));
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, FString::Printf(TEXT("MAX_IDX: %d"), max_idx));
+	TArray<FString> which = { "normal","strong_protan", "mild_protan", "strong_deutan", "mild_deutan" };
+	if (max_idx >= 0) out = which[max_idx];
+	else out = "uncertain";
+	return;
+}

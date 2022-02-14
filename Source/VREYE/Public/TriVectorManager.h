@@ -29,7 +29,9 @@ public:
 
 	virtual	void InitializePlates() override;
 
-	//virtual void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate) override;
+	virtual void ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, int32 coloredPlate) override;
+
+	virtual void AssessResponses(TMap<int32, FString> responses, FString& out);
 
 	UFUNCTION(BlueprintCallable, Category = "TriVector")
 	void InitializeColors();
