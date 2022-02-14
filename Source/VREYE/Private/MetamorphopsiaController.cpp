@@ -80,7 +80,7 @@ void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool post, FSco
 	mat->SetScalarParameterValue(FName("monocular_l"), 1.0f);
 	mat->SetScalarParameterValue(FName("monocular_r"), 1.0f);
 	if (!post) {
-		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
+		if(mono) mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
 		for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
 			if (scotomas.layers_active[i]) {
 				mat->SetVectorParameterValue(FName(prefix_mat[eye] + "Mean" + FString::FromInt(i)), scotomas.layers[i].MeanColor);
@@ -96,7 +96,7 @@ void AMetamorphopsiaController::fromScotoma_CtoMaterial(Eye eye, bool post, FSco
 	else {
 		FLinearColor temp_mean;
 		float temp_float;
-		mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
+		if(mono) mat->SetScalarParameterValue(FName(monocular_prefix[eye]), 0.0f);
 		for (int8 i = 0; i < scotomas.layers_active.Num(); i++) {
 			if (scotomas.layers_active[i]) {
 				temp_mean = scotomas.layers[i].MeanColor;
@@ -231,7 +231,7 @@ void AMetamorphopsiaController::save_patientData(TArray<FScotomata_C> arr_sc, bo
 		modeling_responses.Add(temp);
 	}
 	
-	UProcessing_Functional_Data::SaveArrayText("E:\\Unreal Projects\\VREYE\\Saved\\Processed_Data", "current_data.csv", modeling_responses, true);
+	UProcessing_Functional_Data::SaveArrayText("E:\\Unreal Projects\\EyeSightVR\\Saved\\Processed_Data", "current_data.csv", modeling_responses, true);
 }
 
 // Called when the game starts or when spawned
