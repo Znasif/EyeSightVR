@@ -27,10 +27,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "VictoryBPLibrary",
-			"Enabled": false
-		},
-		{
 			"Name": "SteamVR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
