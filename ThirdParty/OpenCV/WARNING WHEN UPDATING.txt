@@ -1,0 +1,9 @@
+Comment out these lines in core/utility.hpp if you choose to replace it:
+
+Around Line 52
+#if defined(check)
+  #warning Detected Apple 'check' macro definition, it can cause build conflicts. Please, include this header before any Apple headers.
+#endif
+
+Around Line 934
+bool check() const;
