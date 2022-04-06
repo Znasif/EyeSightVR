@@ -231,7 +231,7 @@ void AMetamorphopsiaController::save_patientData(TArray<FScotomata_C> arr_sc, bo
 		modeling_responses.Add(temp);
 	}
 	
-	UProcessing_Functional_Data::SaveArrayText("E:\\Unreal Projects\\EyeSightVR\\Saved\\Processed_Data", "current_data.csv", modeling_responses, true);
+	UProcessing_Functional_Data::SaveArrayText("E:\\Unreal Projects\\EyeSightVR\\Saved\\Processed_Data", FString::FromInt(Subject_ID)+"_metadata.csv", modeling_responses, true);
 }
 
 // Called when the game starts or when spawned
