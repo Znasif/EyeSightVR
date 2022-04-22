@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Essentials.h"
+#include "Math/UnrealMathUtility.h"
 #include "TriVectorManager.generated.h"
 
 /**
