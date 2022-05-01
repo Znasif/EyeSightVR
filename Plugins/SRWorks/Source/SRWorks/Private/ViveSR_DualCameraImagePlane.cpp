@@ -50,13 +50,14 @@ AViveSR_DualCameraImagePlane::AViveSR_DualCameraImagePlane()
 }
 
 void AViveSR_DualCameraImagePlane::SetImgPlaneOwner(AActor* actor) {
-    this->SetOwner(actor);
-    UndistortedImagePlaneLeft->SetOwnerNoSee(true);
-    UndistortedImagePlaneRight->SetOwnerNoSee(true);
-	DepthImagePlane->SetOwnerNoSee(true);
-    CalibratedImagePlaneLeft->SetOnlyOwnerSee(true);
-    CalibratedImagePlaneRight->SetOnlyOwnerSee(true);
-
+    if (this) {
+        this->SetOwner(actor);
+        UndistortedImagePlaneLeft->SetOwnerNoSee(true);
+        UndistortedImagePlaneRight->SetOwnerNoSee(true);
+        DepthImagePlane->SetOwnerNoSee(true);
+        CalibratedImagePlaneLeft->SetOnlyOwnerSee(true);
+        CalibratedImagePlaneRight->SetOnlyOwnerSee(true);
+    }
 }
 
 // Called when the game starts or when spawned

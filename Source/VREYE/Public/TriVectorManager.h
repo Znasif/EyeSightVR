@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Essentials.h"
+#include "Math/UnrealMathUtility.h"
 #include "TriVectorManager.generated.h"
 
 /**
@@ -23,6 +24,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
 		TArray<FString> tritan_hex;
+
+	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
+		TArray<FString> background_hex;
 
 	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
 		TArray<int> threshold_along_confusion_lines;

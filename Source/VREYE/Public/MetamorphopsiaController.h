@@ -48,7 +48,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Subject Information")
 	TArray <UMaterialInstanceDynamic*> simulated_distortions;
 
-	UPROPERTY(EditAnywhere, Category = "Subject Information")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Subject Information")
 	int32 Subject_ID;
 
 	UMaterial* StoredMaterial;
