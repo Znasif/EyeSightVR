@@ -26,6 +26,9 @@ public:
 		TArray<FString> tritan_hex;
 
 	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
+		TArray<FString> background_hex;
+
+	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
 		TArray<int> threshold_along_confusion_lines;
 
 	virtual	void InitializePlates() override;
