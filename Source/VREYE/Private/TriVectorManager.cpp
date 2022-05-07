@@ -20,7 +20,7 @@ void ATriVectorManager::InitializePlates()
 
 	// Right
 	c_info.normal_f = { 214,215,232,234,236,243,260,261,262,264,275,282,283,290,291,293,294,295,296,297,298,299,300,301,303,304,305,306,307,308,309,310,312,313,314,315,316,317,318,319,320,321,324,325,327,328,329,330,346,347,348,349,350,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,381,382,393,395,396,397,398,399,400,404,405,406,411,412,413,414,415,416,417,418,419,420,421,429,431,432,433,434,435,437,438,439,440,458,459,460,463,465,469,470,471,472,479,480,481,559,560,579,581,583};
-	c_info.validResponses = { "Right" };
+	c_info.validResponses = { "Right" };	
 	all_plates.Add(c_info);
 	Cleareverything(c_info);
 
@@ -79,19 +79,19 @@ void ATriVectorManager::ColorThesePlates(TArray<AStaticMeshActor*> ovalPlates, i
 		}
 	}
 
-	int confusion_line_selected = FMath::RandRange(0, 2);
+	trivector_selected = FMath::RandRange(0, 2);
 	//foreground coloring
 	for (int32 i = 0; i < all_plates[coloredPlate].normal_f.Num(); i++) {
 		int32 j = all_plates[coloredPlate].normal_f[i];
 		j = j > 211 ? j : j - 1;
 		UMaterialInstanceDynamic* plate_material = ovalPlates[j]->GetStaticMeshComponent()->CreateAndSetMaterialInstanceDynamic(0);
 		FColor current_color_;
-		int32 idx_line = threshold_along_confusion_lines[confusion_line_selected];
+		int32 idx_line = threshold_along_confusion_lines[trivector_selected];
 		selected_color = FMath::RandRange(idx_line*100, idx_line*100+99);
-		if (confusion_line_selected == 0) {
+		if (trivector_selected == 0) {
 			current_color_ = FColor::FromHex(protan_hex[selected_color]);
 		}
-		else if (confusion_line_selected == 1) {
+		else if (trivector_selected == 1) {
 			current_color_ = FColor::FromHex(deutan_hex[selected_color]);
 		}
 		else {

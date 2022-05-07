@@ -20,6 +20,9 @@ public:
 		TArray<FString> protan_hex;
 
 	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
+		int trivector_selected;
+
+	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
 		TArray<FString> deutan_hex;
 
 	UPROPERTY(BlueprintReadWrite, Category = "TriVector")
