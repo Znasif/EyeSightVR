@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.26",
+	"EngineAssociation": "4.27",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -44,7 +44,11 @@
 			"Enabled": true
 		},
 		{
-			"Name": "AdvancedSteamSessions",
+			"Name": "EOSVoiceChat",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineSubsystemEOS",
 			"Enabled": true
 		}
 	]

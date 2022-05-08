@@ -2,7 +2,7 @@
 	"source": "UE",
 	"applications": [
 		{
-			"app_key": "application.generated.ue.vreye-15973114.ue4editor-win64-debuggame.exe",
+			"app_key": "application.generated.ue.vreye-18319896.ue4editor-win64-debuggame.exe",
 			"launch_type": "url",
 			"url": "steam://launch/",
 			"action_manifest_path": "E:/Unreal Projects/VREYE/Config/SteamVRBindings/steamvr_manifest.json",
@@ -10,7 +10,7 @@
 			{
 				"en_us":
 				{
-					"name": "VREYE-15973114 [UE Editor]"
+					"name": "VREYE-18319896 [UE Editor]"
 				}
 			}
 		}
