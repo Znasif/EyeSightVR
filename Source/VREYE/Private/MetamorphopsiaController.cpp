@@ -230,7 +230,6 @@ void AMetamorphopsiaController::save_patientData(TArray<FScotomata_C> arr_sc, bo
 		temp += FString::SanitizeFloat(arr_sc[i].Distortion) + ",";
 		modeling_responses.Add(temp);
 	}
-	
 	UProcessing_Functional_Data::SaveArrayText("E:\\Unreal Projects\\EyeSightVR\\Saved\\Processed_Data", FString::FromInt(Subject_ID)+"_metadata.csv", modeling_responses, true);
 }
 

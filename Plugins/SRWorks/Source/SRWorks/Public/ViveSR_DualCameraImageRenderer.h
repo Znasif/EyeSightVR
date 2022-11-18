@@ -19,7 +19,7 @@
 * This is the actor can show PassThrough and depth image
 */
 
-UCLASS()
+UCLASS(BlueprintType)
 class SRWORKS_API AViveSR_DualCameraImageRenderer : public AActor
 {
 	GENERATED_BODY()
@@ -31,7 +31,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetVROrigin(AActor* vrOrigin) { vr_origin = vrOrigin; }
-	void Initial();
+	UFUNCTION(BlueprintCallable, category = "ViveSR|DualCamera|ImageRenderer") void Initial();
 	void Release();
 
     bool GPUMethod = true;

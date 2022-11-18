@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Math/UnrealMathUtility.h"
+#include "opencv2/core/mat.hpp"
+#include "opencv2/core.hpp"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "VREYE.generated.h"
 
@@ -132,4 +134,54 @@ struct FAmsler_Chart_C {
 		FLinearColor BackgroundColor = FLinearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	UPROPERTY(BlueprintReadWrite, Category = "Amsler Grid")
 		FLinearColor LineColor = FLinearColor(1.0f, 1.0f, 1.0f, 0.0f);
+};
+
+USTRUCT(BlueprintType)
+struct FColor_lxy
+{
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Luminance in cd/m2")
+		float l;
+	UPROPERTY(BlueprintReadWrite, Category = "chromaticity x")
+		float x;
+	UPROPERTY(BlueprintReadWrite, Category = "chromaticity y")
+		float y;
+};
+
+USTRUCT(BlueprintType)
+struct FColor_Luv
+{
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Luminance in cd/m2")
+		float L;
+	UPROPERTY(BlueprintReadWrite, Category = "u")
+		float u;
+	UPROPERTY(BlueprintReadWrite, Category = "v")
+		float v;
+};
+
+USTRUCT(BlueprintType)
+struct FColor_XYZ
+{
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Tristimulus")
+		float X;
+	UPROPERTY(BlueprintReadWrite, Category = "Tristimulus")
+		float Y;
+	UPROPERTY(BlueprintReadWrite, Category = "Tristimulus")
+		float Z;
+};
+
+USTRUCT(BlueprintType)
+struct FColor_primaries_lxy
+{
+	GENERATED_USTRUCT_BODY()
+		UPROPERTY(BlueprintReadWrite, Category = "Red")
+		FColor_lxy Red;
+	UPROPERTY(BlueprintReadWrite, Category = "Red")
+		FColor_lxy Green;
+	UPROPERTY(BlueprintReadWrite, Category = "Red")
+		FColor_lxy Blue;
+	UPROPERTY(BlueprintReadWrite, Category = "Red")
+		FColor_lxy White;
 };
